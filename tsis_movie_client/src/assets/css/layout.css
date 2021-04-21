@@ -1,0 +1,433 @@
+/**
+    * layout 구성 css
+*/
+
+html, body, #app {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+body {
+    margin: 0;
+}
+p {
+    margin : 0;
+}
+#app {
+    display: flex;
+}
+/* main */
+.box.main {
+    width: 260px;
+    margin: auto;
+    padding-bottom: 50px;
+}
+.box.main .title {
+    height:auto;
+    /* margin-bottom: 7px; */
+}
+.box.main .thum {
+    width: 20%;
+}
+.box.main .title .txt {
+    display: inline-block;
+}
+/* movie */
+.box.movie,.box.table {
+    width: 90%;
+    height: 70%;
+    margin: auto;
+    display: flex;
+}
+.box.movie .sub {
+    display: flex;
+    width: 20%;
+    border-right: 2px solid #e01515;
+    padding: 20px;
+    justify-content: flex-end;
+    align-items: center;
+}
+.box.table .sub {
+    width: 30%;
+    border-right: 2px solid #e01515;
+    text-align: right;
+    padding: 20px;
+}
+.box.movie .ly {
+    text-align: center;
+    display: inline-block;
+    font-weight: bold;
+}
+.box.movie .thum {
+    width: 90px;
+    height: 90px;
+}
+.box .container {
+    width: 70%;
+    padding-left: 13px;
+}
+.box .container .mv_li {
+    height: 80%;
+    white-space: nowrap;
+    overflow-x: auto;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+.box .container .mv_item {
+    list-style-type: none;
+    text-align: center;
+    width: 22%;
+    height: 77%;
+    display:inline-block;
+    margin-right: 10px;
+}
+.box .container .mv_name {
+    width: 100%;
+    font-weight: bold;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 6px;
+}
+.box .container .mv_place {
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 6px;
+}
+.box .container .box_img {
+    height: 75%;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    background: #FFFFFF;
+    box-shadow: -4px -4px 10px -8px rgba(255, 255, 255, 1), 4px 4px 10px -4px rgba(0, 0, 0, 0.568);
+    text-align: center;
+    padding: 9px 11px;
+}
+.box .container .box_img.select {
+    border: 3px solid #e01515;
+}
+.box .container .box_img .thum {
+    width: 100%;
+    height: 100%;
+}
+.box .container .tm_li {
+    white-space: nowrap;
+    overflow-x: auto;
+    padding: 0;
+}
+.box .container .tm_item {
+    width: 16%;
+    padding: 11px;
+    margin-right: 5px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    background: #FFFFFF;
+    box-shadow: -4px -4px 10px -8px rgba(255, 255, 255, 1), 4px 4px 10px -4px rgba(0, 0, 0, 0.568);
+    text-align: center;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: bold;
+}
+.box .container .tm_tm {
+    float: left;
+}
+.box .container .tm_pl {
+    float: right;
+}
+
+/* table */
+.box.table .container {
+    width: 100%;
+    text-align: center;
+}
+.box.table .container .mv_item {
+    width: 80%;
+}
+.box.table .container .mv_name {
+    padding-top: 5px;
+}
+.box.table .container .tm_item {
+    width: 55%;
+    margin-top: 10px;
+}
+.box.table .table {
+    width: 100%;
+    padding: 10px 10px 0 10px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: auto;
+}
+.box.table .tb_mem {
+    width: 15%;
+    display: inline-block;
+    margin-left: 15px;
+}
+.box.table .tb_mon {
+    float: right;
+    margin-right: 10px;
+}
+.box.table .tb_total {
+    text-align: end;
+}
+.box.table .tb_total .accent {
+    font-size: 27px;
+    margin: 0 5px;
+}
+.box.table .tb_count {
+    width: 100%;
+    border: 1px solid #cccccc;
+    line-height: 30px;
+    border-radius: 6px;
+    background: #FFFFFF;
+    box-shadow: -4px -4px 10px -8px rgba(255, 255, 255, 1), 4px 4px 10px -4px rgba(0, 0, 0, 0.568);
+    text-align: center;
+    margin-top: 6px;
+}
+.box.table .tb_count .btn {
+    background: transparent;
+    border: none;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+.box.table .tb_count .minus {
+    float: left;
+}
+.box.table .tb_count .minus.none {
+    float: left;
+    color: #858585;
+}
+.box.table .tb_count .plus {
+    float: right;
+}
+.box.table .tb_screen {
+    width: 100%;
+    height: 6%;
+    background: #e01515;
+    margin-top: 9px;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-align: center;
+    line-height: 20px;
+}
+.box.table .tb_seat {
+    margin-top: 10px;
+    width: 100%;
+    max-height: 70%;
+    white-space: nowrap;
+    overflow: auto;
+}
+.box.table .tb_seat .seat_item {
+    background: none;
+    border: none;
+    padding: 8px;
+    font-weight: bold;
+    width: 100%;
+}
+.box.table .tb_seat .seat_item:disabled {
+    background: #505050;
+    color: #FFFFFF;
+}
+.box.table .tb_seat #selected {
+    background: #f7cd15;
+}
+th {
+    /* padding: 5px; */
+    border: 1px solid #000000;
+}
+table {
+    border-spacing: 1px;
+    width: 100%;
+}
+.box .btn.con {
+    position: fixed;
+    width: 100%;
+    text-align: end;
+    bottom: 0;
+    right: 0;
+    padding: 15px;
+}
+.box .btn.con .btn {
+    border-radius: 6px;
+    border: none;
+    color: #FFFFFF;
+    font-weight: bold;
+    width: 15%;
+    min-width: 66px;
+    height: 45px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+.box .btn.cancel {
+    background: #3f3f3f;
+    margin-right: 5px;
+}
+.box .btn.confirm {
+    background: #e01515;
+}
+/* dim alert */
+#dim {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.45);
+    position: fixed;
+    left: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    z-index: 9999;
+}
+.layer {
+    width: 30%;
+    height: auto;
+    position: absolute;
+    top: 32%;
+    left: 32%;
+    background: #FFFFFF;
+    z-index: 10000;
+    border-radius: 9px;
+    padding: 10px;
+    text-align: center;
+}
+.layer .box.main{
+    width: 100%;
+    height: auto;
+    /* margin-right: 30px; */
+    padding-bottom: 0;
+}
+.layer .title .txt {
+    font-size: 20px;
+}
+.layer .info {
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 10px;
+}
+.layer .info input {
+    border: 1px solid #cccccc;
+    line-height: 30px;
+    border-radius: 6px;
+    background: #FFFFFF;
+    box-shadow: -4px -4px 10px -8px rgba(255, 255, 255, 1), 4px 4px 10px -4px rgba(0, 0, 0, 0.568);
+    text-align: center;
+    display: inline-block;
+    padding: 3px;
+    font-size: 15px;
+}
+.layer .info input:focus {
+    outline: none !important;
+    border: 2px solid #e01515;
+}
+.layer .info .type {
+    width: 15%;
+}
+.layer .info .ph {
+    width: 21%;
+}
+.layer .con {
+    margin-top: 15px;
+}
+.layer .con .btn {
+    border-radius: 1px;
+    border: none;
+    color: #FFFFFF;
+    font-weight: bold;
+    width: 20%;
+    min-width: 66px;
+    height: 40px;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+/* MovieConfirmPage */
+.box.movie .subtitle {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 35px;
+}
+.box.movie .book {
+    margin-left: 10px;
+}
+.box.movie .book .mv_con {
+    width: 100%;
+    height: 60%;
+    display: flex;
+}
+.box.movie .book .mv_con .thum {
+    height: 100%;
+    width: 260px;
+}
+.box.movie .book .mv_info {
+    margin-left: 20px;
+    width: inherit;
+}
+.box.movie .book .mv_title {
+    font-weight: bold;
+    font-size: 20px;
+}
+.box .book.container .tm_item {
+    margin-top: 10px;
+    width: 25%;
+}
+.box .book .mv_mon {
+    width: 100%;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+.line {
+    margin: 10px 0;
+    border: 1px dashed #000000;
+}
+.box .book .mv_total {
+    font-weight: bold;
+    font-size: 25px;
+}
+.box .book .mv_seat {
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+    max-height: 35%;
+}
+.box .book .mv_seat .tm_item {
+    width: 10%;
+}
+.box .book .seat_con {
+    /* white-space: nowrap; */
+    overflow: auto;
+    margin-top: 7px;
+    height: 110px;
+}
+/* Book Login Page */
+.box.book .layer {
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    background: #FFFFFF;
+    box-shadow: -4px -4px 10px -8px rgba(255, 255, 255, 1), 4px 4px 10px -4px rgba(0, 0, 0, 0.568);
+    text-align: center;
+}
+.box.book .tmp {
+    font-size: 12px;
+    text-align: start;
+    padding-left: 10px;
+}
+/* Book List Page */
+.box.movie .history .mv_li {
+    height: 80%;
+}
+.box.movie .history {
+    display: flex;
+
+    align-items: center;
+}
+/* .box.movie .history .box_img{
+    height: 60%;
+} */
+.box.movie .history .tm_item{
+    margin-top: 15px;
+    width: 60%;
+}
