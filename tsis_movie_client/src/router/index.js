@@ -42,7 +42,8 @@ const routes = [
   {
     path: '/book/list',
     name: 'BookList',
-    component: BookList
+    component: BookList,
+    props: true
   }
 ]
 

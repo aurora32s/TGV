@@ -8,12 +8,12 @@
                 <strong class='com name'>TGV</strong>
             </div>
         </div>
-        <div class='container history'>
+        <div v-if='movies' class='container history'>
             <ul class='mv_li'>
-                <li v-for='movie in movies' :key='movie.id'
+                <li v-for='(movie, index) in movies' :key='movie.id'
                 class='mv_item'>
                     <p class='mv_name'>{{movie.name}}</p>
-                    <div class='box_img' @click='moveToMovieConfirmPage'>
+                    <div class='box_img' @click='moveToMovieConfirmPage(index)'>
                         <img class='thum' :src='movie.image'/>
                     </div>
                     <div class='tm_item'>
@@ -30,42 +30,43 @@
     </div>
 </template>
 <script>
+import * as API from '../backend/api'
 export default {
   name: 'BookListPage',
+  props: ['phone'],
   data () {
     return {
-      currentMovieId: 0,
-      movies: [
-        {
-          id: 0,
-          name: '클레멘타인',
-          image: require('../assets/images/aladdin.jpeg'),
-          theater: 1,
-          time: '08:30'
-        },
-        {
-          id: 1,
-          name: '영웅',
-          image: require('../assets/images/avengers.jpg'),
-          theater: 2,
-          time: '12:30'
-        },
-        {
-          id: 2,
-          name: '성냥팔이 소녀의 재림',
-          image: require('../assets/images/parasite.jpg'),
-          theater: 3,
-          time: '18:30'
-        }
-      ]
+      movies: undefined
     }
+  },
+  created () {
+    console.log(this.phone)
+    this.requestBookList()
   },
   methods: {
     /**
+     * 예매 내역 정보 요청
+     */
+    requestBookList () {
+      API.getBookList(this.phone)
+        .then((response) => {
+          console.log(response)
+          this.movies = response.data
+        })
+    },
+    /**
      * 예매 내역 상세 페이지로 이동
      */
-    moveToMovieConfirmPage () {
-      this.$router.push({ name: 'Confirm', params: { backPath: '/book/list' } })
+    moveToMovieConfirmPage (movieIndex) {
+      const movie = this.movies[movieIndex]
+      movie.phone = this.phone
+      this.$router.push({
+        name: 'Confirm',
+        params: {
+          backPath: 'BookList',
+          bookedInfo: movie
+        }
+      })
     },
     /**
      * 이전 화면으로 돌아가기

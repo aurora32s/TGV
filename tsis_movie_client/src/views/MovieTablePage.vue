@@ -9,13 +9,13 @@
                     <p class='mv_name'>{{movie.name}}</p>
                     <p class='mv_place'>
                         <strong class='accent'>{{movie.theater}}</strong>
-                        관 {{movie.totalSeat}}석
+                        관 {{movie.seatNo}}석
                     </p>
                 </div>
                 <div class='tm_item'>
                     <p class='tm_tm'>{{movie.time}}</p>
                     <p class='tm_pl'>
-                        <strong class='accent'>{{movie.totalSeat - movie.booked.length}}</strong>석
+                        <strong class='accent'>{{extraSeatNo}}</strong>석
                     </p>
                 </div>
             </div>
@@ -44,9 +44,9 @@
             <div class='tb_screen'>Screen</div>
             <div class='tb_seat'>
                 <table>
-                    <tr v-for='row in movie.size.row'
+                    <tr v-for='row in movie.seatRow'
                         :key='row'>
-                        <th v-for='column in movie.size.column'
+                        <th v-for='column in movie.seatCol'
                             :key='column'>
                             <button class='seat_item' :disabled='checkSeatBooked(row, column)'
                                 @click='addSeat($event, row, column)'>
@@ -62,51 +62,47 @@
             </div>
         </div>
         <UserInfoDialog v-if='showUserInfoDialogFlag'
-            :showUserInfoDialogFlag.sync='showUserInfoDialogFlag'/>
+            :showUserInfoDialogFlag.sync='showUserInfoDialogFlag'
+            @requestBook='requestBook'/>
     </div>
 </template>
 <script>
+import * as API from '../backend/api'
 import UserInfoDialog from '../components/Dialog/UserInfoDialog.vue'
 export default {
   name: 'MovieTablePage',
-  props: ['movieId'],
+  props: ['movie'],
   components: { UserInfoDialog },
   data () {
     return {
       showUserInfoDialogFlag: false,
       peopleNo: 1,
-      movie: {
-        id: 0,
-        name: '클레멘타인',
-        image: require('../assets/images/aladdin.jpeg'),
-        theater: 1,
-        totalSeat: 156,
-        time: '08:30',
-        booked: [
-          { row: 1, column: 4 },
-          { row: 5, column: 3 },
-          { row: 5, column: 2 },
-          { row: 9, column: 10 },
-          { row: 7, column: 3 },
-          { row: 3, column: 4 }
-        ],
-        price: 10000,
-        size: {
-          row: 22,
-          column: 13
-        }
-      },
       seats: {},
-      selectedSeatNo: 0
+      extraSeatNo: 0,
+      selectedSeatNo: 0,
+      bookedSeat: []
     }
   },
+  created () {
+    this.requestMovie()
+  },
   methods: {
+    /**
+     * 영화 세부정보 요청
+     */
+    requestMovie () {
+      API.getMovie(this.movie.id)
+        .then((response) => {
+          this.bookedSeat = response.data
+          this.extraSeatNo = this.movie.seatNo - this.bookedSeat.length
+        })
+    },
     /**
      * 해당 좌석이 예매 되었는지 확인
      */
     checkSeatBooked (row, column) {
-      for (const seat of this.movie.booked) {
-        if (seat.row === row && seat.column === column) {
+      for (const seat of this.bookedSeat) {
+        if (seat.x === row && seat.y === column) {
           return true
         }
       }
@@ -137,7 +133,9 @@ export default {
      * 관람인원 수 추가
      */
     addPeopleNo () {
-      this.peopleNo++
+      if (this.peopleNo < this.extraSeatNo) {
+        this.peopleNo++
+      }
     },
     /**
      * 좌석 추가/제거
@@ -158,6 +156,29 @@ export default {
         event.target.id = ''
         this.selectedSeatNo--
       }
+    },
+    /**
+     * 예매 등록 요청
+     */
+    requestBook (phoneNo) {
+      const bookInfo = {
+        timeId: this.movie.id,
+        phone: phoneNo,
+        peopleNo: this.peopleNo,
+        seats: this.seats
+      }
+      API.addBook(bookInfo)
+        .then((response) => {
+          this.showUserInfoDialogFlag = false
+          bookInfo.bookId = response.data.bookId
+          this.$router.push({
+            name: 'Confirm',
+            params: {
+              backPath: 'Movie',
+              bookedInfo: Object.assign(this.movie, bookInfo)
+            }
+          })
+        })
     }
   }
 }

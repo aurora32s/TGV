@@ -54,7 +54,7 @@ export default {
       } else if (/[^0-9]/.test(phone)) { // 문자 입력
         return
       }
-      this.$router.push('/book/list')
+      this.$router.push({ name: 'BookList', params: { phone: phone } })
     }
   }
 }

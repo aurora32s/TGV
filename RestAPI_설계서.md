@@ -32,11 +32,13 @@ method: GET
 
 3. Query
 select
-	E.time_id as id,
 	M.name as name,
 	M.image as image,
+	M.price as price,
 	C.theater_no as theater,
 	C.theater_row * C.theater_column as seatNo,
+	C.theater_row as seatRow,
+	C.theater_column as seatCol,
 	times
 from
 (
@@ -47,12 +49,13 @@ from
 		JSON_ARRAYAGG(
 			JSON_OBJECT(
 				'time', T.time,
-				'extra', (
+				'extraSeat', (
 					select sum(people_no)
 					from book B
 					where B.time_id = T.time_id
 					group by time_id
-				)
+				),
+        'timeId', T.time_id
 			)
 		) as times
 	from time T
@@ -63,7 +66,7 @@ where E.movie_id = M.movie_id and E.theater_id = C.theater_id
 /**
   * 영화 상세 화면 -> 영화 상세 정보 요청
 */
-path: '/movie/:movieId'
+path: '/movie/detail/:timeId'
 method: GET
 
 1. request
@@ -152,7 +155,7 @@ method: POST
 
 /**
   * 예매 내역 정보 요청
-/
+*/
 path: '/movie/book/list'
 method: GET
 
@@ -207,16 +210,19 @@ from (
 			B.book_id,
 			B.time_id,
 			B.people_no,
-			JSON_ARRAYAGG(
-				JSON_OBJECT(
-					'row', S.book_row,
-					'column', S.book_column
-				)
+			(
+				select
+					JSON_ARRAYAGG(
+						JSON_OBJECT(
+							'row', S.book_row,
+							'column', S.book_column
+						)
+					)
+				from seat S
+				where S.book_id = B.book_id
 			) as seats
-		from (
-			select * from Book where book_id=2
-		) B join seat S
-		on B.book_id = S.book_id
+		from book B
+		where B.phone = '01066507951'
 	) E, time T
 	where E.time_id = T.time_id
 ) E, movie M, theater C

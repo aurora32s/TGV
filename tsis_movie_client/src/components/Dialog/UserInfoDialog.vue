@@ -57,7 +57,7 @@ export default {
       } else if (/[^0-9]/.test(phone)) { // 문자 입력
         return
       }
-      this.$router.push({ name: 'Confirm', params: { backPath: '/movie' } })
+      this.$emit('requestBook', phone)
     }
   }
 }

@@ -1,0 +1,14 @@
+{
+  "name": "tsis_movie_server",
+  "version": "1.0.0",
+  "description": "tsis movie server project by nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "yeonju.jin",
+  "license": "ISC",
+  "dependencies": {
+    "mysql": "^2.18.1"
+  }
+}

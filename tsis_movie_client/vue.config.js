@@ -5,8 +5,8 @@
 module.exports = {
   devServer: {
     proxy: {
-      '^movie': {
-        target: 'http://localhost:8086',
+      '/movie': {
+        target: 'http://localhost:8085',
         changeOrigin: true
       }
     }
