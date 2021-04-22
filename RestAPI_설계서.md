@@ -23,14 +23,14 @@ method: GET
     image: 'movie image path',
     theater: 1, // theater no
     seatNo: 156, // 영화관 총 좌석 개수
-    time: [ // 상영 시간
+    times: [ // 상영 시간
       time: '09:00', // movie time
       extraSeat: 20 // 남은 좌석 개수
     ]
   ]
 }
 
-3. SQL 명령어
+3. Query
 select
 	E.time_id as id,
 	M.name as name,
@@ -96,7 +96,7 @@ method: GET
   }
 }
 
-3.
+3. Query
 select
 	book_row as x,
 	book_column as y
@@ -111,7 +111,7 @@ method: POST
 
 1. request
 {
-  movieId: 0, // 영화 id
+  timeId: 0, // 영화 id
   phone: 'user phone no',
   seats: [ // 선택된 좌석 번호
     {
@@ -128,6 +128,10 @@ method: POST
   resultMsg: 'api result msg',
   bookId: 1 // 예매 id
 }
+
+3. Query
+(1) insert into book(time_id, phone, people_no) values(timeId, phone, peopleNo)
+(2) insert into seat(book_id, book_row, book_column) valuse((1)에서 생성된 book_id, [seats.row], [seats.column])
 
 /**
   * 예매 정보 삭제
@@ -177,3 +181,43 @@ method: GET
     }
   ]
 }
+
+3. Query
+select
+	E.book_id as id,
+	M.name as name,
+	M.image as image,
+	C.theater_no as theater,
+	E.time as time,
+	M.price as price,
+	E.people_no as peopleNo,
+	E.seats as seats
+from (
+	select
+		E.book_id,
+		E.time_id,
+		E.people_no,
+		E.seats,
+		T.movie_id,
+		T.theater_id,
+		T.time
+	from
+	(
+		select
+			B.book_id,
+			B.time_id,
+			B.people_no,
+			JSON_ARRAYAGG(
+				JSON_OBJECT(
+					'row', S.book_row,
+					'column', S.book_column
+				)
+			) as seats
+		from (
+			select * from Book where book_id=2
+		) B join seat S
+		on B.book_id = S.book_id
+	) E, time T
+	where E.time_id = T.time_id
+) E, movie M, theater C
+where E.movie_id = M.movie_id and C.theater_id = E.theater_id
