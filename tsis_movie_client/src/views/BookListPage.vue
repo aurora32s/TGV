@@ -81,7 +81,7 @@ export default {
      * 이전 화면으로 돌아가기
      */
     onClickBackBtn () {
-      history.back()
+      this.$router.push('/')
     },
     /**
      * Single Btn Dialog Confirm Btn Event
