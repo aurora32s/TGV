@@ -101,6 +101,7 @@ const addSeatInfo = async (bookId, seat) => {
 */
 app.get(COMMON_END_POINT + '/book/del/:bookId', (req, res) => {
     const bookId = req.params.bookId
+    console.log(bookId)
     DB_CONN.query(QUERY.DEL_MOVIE_SEAT, bookId, (error, rows) => {
       if (error) {
         console.log('Fail to del book >>> ' + error)

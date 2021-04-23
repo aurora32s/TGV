@@ -50,21 +50,35 @@
             </div>
         </div>
         <div class='btn con'>
-            <button class='btn cancel' @click='cancelMovieBook'>예매 취소</button>
+            <button class='btn cancel' @click='showDoubleBtnDialog'>예매 취소</button>
             <button class='btn confirm' @click='moveToMoviePage'>확인</button>
         </div>
+        <DoubleBtnDialog v-if='showDoubleBtnDialogFlag'
+            :msg='"영화 예매를 취소하시겠습니까?"'
+            :onClickConfirmBtn='cancelMovieBook'
+            :onClickCancelBtn='hideDoubleBtnDialog'/>
     </div>
 </template>
 <script>
 import * as API from '../backend/api'
+import DoubleBtnDialog from '../components/Dialog/DoubleBtnDialog'
 export default {
   name: 'MovieConfirmPage',
   props: ['backPath', 'bookedInfo'],
+  components: {
+    DoubleBtnDialog
+  },
+  data () {
+    return {
+      showDoubleBtnDialogFlag: false
+    }
+  },
   methods: {
     /**
      * 예매 취소 버튼 Click : 예매 취소 REST API 요청
      */
     cancelMovieBook () {
+      console.log(this.bookedInfo)
       API.delBook(this.bookedInfo.id)
         .then((response) => {
           console.log(response.data)
@@ -76,7 +90,20 @@ export default {
      */
     moveToMoviePage () {
       this.$router.push({ name: this.backPath, params: { phone: this.bookedInfo.phone } })
+    },
+    /**
+     * 예매 취소 버튼 Click : 취소 확인 dialog show
+     */
+    showDoubleBtnDialog () {
+      this.showDoubleBtnDialogFlag = true
+    },
+    /**
+     * Double Btn Dialog -> 취소 버튼
+     */
+    hideDoubleBtnDialog () {
+      this.showDoubleBtnDialogFlag = false
     }
+
   }
 }
 </script>

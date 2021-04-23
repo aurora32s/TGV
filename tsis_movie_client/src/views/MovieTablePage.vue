@@ -64,15 +64,19 @@
         <UserInfoDialog v-if='showUserInfoDialogFlag'
             :showUserInfoDialogFlag.sync='showUserInfoDialogFlag'
             @requestBook='requestBook'/>
+        <SingleBtnDialog v-if='showSingleBtnDialogFlag'
+          :msg='"데이터 정보를 받아오는데 실패하였습니다."'
+          :onClickConfirmBtn='moveToMoviePage'/>
     </div>
 </template>
 <script>
 import * as API from '../backend/api'
 import UserInfoDialog from '../components/Dialog/UserInfoDialog.vue'
+import SingleBtnDialog from '../components/Dialog/SingleBtnDialog'
 export default {
   name: 'MovieTablePage',
   props: ['movie'],
-  components: { UserInfoDialog },
+  components: { UserInfoDialog, SingleBtnDialog },
   data () {
     return {
       showUserInfoDialogFlag: false,
@@ -80,7 +84,8 @@ export default {
       seats: {},
       extraSeatNo: 0,
       selectedSeatNo: 0,
-      bookedSeat: []
+      bookedSeat: [],
+      showSingleBtnDialogFlag: false
     }
   },
   created () {
@@ -95,6 +100,9 @@ export default {
         .then((response) => {
           this.bookedSeat = response.data
           this.extraSeatNo = this.movie.seatNo - this.bookedSeat.length
+        })
+        .catch(() => {
+          this.showSingleBtnDialogFlag = true
         })
     },
     /**
@@ -170,7 +178,7 @@ export default {
       API.addBook(bookInfo)
         .then((response) => {
           this.showUserInfoDialogFlag = false
-          bookInfo.bookId = response.data.bookId
+          bookInfo.id = response.data.bookId
           this.$router.push({
             name: 'Confirm',
             params: {
@@ -178,6 +186,10 @@ export default {
               bookedInfo: Object.assign(this.movie, bookInfo)
             }
           })
+        })
+        .catch(() => {
+          this.showUserInfoDialogFlag = false
+          this.showSingleBtnDialogFlag = true
         })
     }
   }

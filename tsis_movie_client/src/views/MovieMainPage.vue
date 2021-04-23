@@ -37,17 +37,23 @@
         <div class='btn con'>
             <button class='btn cancel' @click='onClickBackBtn'>돌아가기</button>
         </div>
+        <SingleBtnDialog v-if='showSingleBtnDialogFlag'
+          :msg='"데이터 정보를 받아오는데 실패하였습니다."'
+          :onClickConfirmBtn='closeSingleBtnDialog'/>
     </div>
 </template>
 <script>
 import * as API from '../backend/api'
 import * as CloneDeep from 'lodash'
+import SingleBtnDialog from '../components/Dialog/SingleBtnDialog'
 export default {
   name: 'MovieMainPage',
+  components: { SingleBtnDialog },
   data () {
     return {
       currentMovieId: 0,
-      movies: undefined
+      movies: undefined,
+      showSingleBtnDialogFlag: false
     }
   },
   mounted () {
@@ -66,6 +72,9 @@ export default {
         .then((response) => {
           this.movies = response.data
           this.currentMovieId = 0
+        })
+        .catch(() => {
+          this.showSingleBtnDialogFlag = true
         })
     },
     /**
@@ -90,6 +99,12 @@ export default {
      */
     selectMovie (movieIndex) {
       this.currentMovieId = movieIndex
+    },
+    /**
+     * Single Btn Dialog Confirm Btn Event
+     */
+    closeSingleBtnDialog () {
+      this.showSingleBtnDialogFlag = false
     }
   }
 }

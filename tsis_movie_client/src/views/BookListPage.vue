@@ -27,16 +27,22 @@
         <div class='btn con'>
             <button class='btn cancel' @click='onClickBackBtn'>돌아가기</button>
         </div>
+        <SingleBtnDialog v-if='showSingleBtnDialogFlag'
+          :msg='"데이터 정보를 받아오는데 실패하였습니다."'
+          :onClickConfirmBtn='closeSingleBtnDialog'/>
     </div>
 </template>
 <script>
 import * as API from '../backend/api'
+import SingleBtnDialog from '../components/Dialog/SingleBtnDialog'
 export default {
   name: 'BookListPage',
   props: ['phone'],
+  components: { SingleBtnDialog },
   data () {
     return {
-      movies: undefined
+      movies: undefined,
+      showSingleBtnDialogFlag: false
     }
   },
   created () {
@@ -52,6 +58,9 @@ export default {
         .then((response) => {
           console.log(response)
           this.movies = response.data
+        })
+        .catch(() => {
+          this.showSingleBtnDialogFlag = true
         })
     },
     /**
@@ -73,6 +82,12 @@ export default {
      */
     onClickBackBtn () {
       history.back()
+    },
+    /**
+     * Single Btn Dialog Confirm Btn Event
+     */
+    closeSingleBtnDialog () {
+      this.showSingleBtnDialogFlag = false
     }
   }
 }
