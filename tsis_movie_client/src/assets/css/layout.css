@@ -77,7 +77,7 @@ p {
 .box .container .mv_item {
     list-style-type: none;
     text-align: center;
-    width: 27%;
+    width: 25%;
     height: 77%;
     display:inline-block;
     margin-right: 10px;
@@ -335,7 +335,7 @@ table {
     color: #FFFFFF;
     font-weight: bold;
     width: 20%;
-    min-width: 66px;
+    min-width: 86px;
     height: 40px;
     text-align: center;
     margin-bottom: 5px;
@@ -418,6 +418,9 @@ table {
 /* Book List Page */
 .box.movie .history .mv_li {
     height: 80%;
+}
+.box.movie .history .mv_item {
+    width: 42%;
 }
 .box.movie .history {
     display: flex;

@@ -61,8 +61,8 @@ const ADD_MOVIE_SEAT = '' +
 */
 const DEL_MOVIE_BOOK = '' +
 'delete from book where book_id=?'
-const DEL_MOVIE_SEAT = '' +
-'delete from seat where book_id=?'
+// const DEL_MOVIE_SEAT = '' +
+// 'delete from seat where book_id=?'
 
 /**
   * 5. 예매 내역 정보 요청
