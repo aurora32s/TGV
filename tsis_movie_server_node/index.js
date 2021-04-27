@@ -66,34 +66,33 @@ app.post(COMMON_END_POINT + '/book', (req, res) => {
       } else {
         // 좌석 정보 추가
         try {
-            for (const seat of Object.keys(body.seats)) {
-                addSeatInfo(rows.insertId, body.seats[seat])
-            }
+            addSeatInfo(rows.insertId, body.seats)
+              .then(() => {
+                console.log('finish add seats>>>>>>>>>>>>>>>>')
+                res.send({
+                  resultMsg: 'OK',
+                  resultCode: '200',
+                  bookId: rows.insertId
+                })
+              })
         } catch (exception) {
+          DB_CONN.rollback() // RollBack
           console.log('add book exception >>> ', exception)
           res.send({
             resultMsg: 'Data Base Error',
             resultCode: '1004'
           })
         }
-        console.log('add book finish >>> ')
-        res.send({
-          resultMsg: 'OK',
-          resultCode: '200',
-          bookId: rows.insertId
-        })
       }
     })
 })
 
-const addSeatInfo = async (bookId, seat) => {
-    await DB_CONN.query(QUERY.ADD_MOVIE_SEAT,
-        [bookId, seat.row, seat.column], (error, rows) => {
-        if (error) {
-            console.log('Fail to add booking seats data >>> ' + error)
-            throw new Error()
-        }
-    })
+const addSeatInfo = async (bookId, seats) => {
+  for (const key of Object.keys(seats)) {
+      const seat = seats[key]
+      const result = await DB_CONN.query(QUERY.ADD_MOVIE_SEAT, [bookId, seat.row, seat.column])
+      console.log(result.Query)
+  }
 }
 
 /**

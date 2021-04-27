@@ -13,10 +13,10 @@ const DB_INFO = {
 }
 module.exports = {
   init: () => { // DB init
-    return mysql.createConnection(DB_INFO)
+    return mysql.createPool(DB_INFO)
   },
   connect: (conn) => { // DB Connect
-    conn.connect((error) => {
+    conn.getConnection((error) => {
       if (error) { // 에러 발생
         console.log('Error to connect MySQL DB >>> ' + error)
       } else {
